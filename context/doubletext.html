@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Double Conv Text VBA - Codeit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .content-card {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
+        }
+        
+        h2 { 
+            color: #6500c3; 
+            margin-bottom: 10px; 
+            font-size: 20px;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        /* 코드 블록 스타일 */
+        .code-block {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: pre;
+            border: 1px solid #333;
+        }
+
+        .vba-keyword { color: #569cd6; } /* Sub, Dim, While, If, For 등 */
+        .vba-type { color: #4ec9b0; }    /* String, Range, Workbook 등 */
+        .vba-string { color: #ce9178; }  /* "Text" */
+        .vba-comment { color: #6a9955; } /* ' Comment */
+        .vba-label { color: #b5cea8; }   /* Continue: */
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid #ffffff;
+            transition: opacity 0.2s;
+        }
+        .back-btn:hover { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content-card">
+            <h2>Double Conv Text VBA Code</h2>
+            <p class="description">인터페이스 MCI 전환을 위해 파일명을 일괄 변경하여 복사하고, 엑셀 시트 내의 특정 셀 값까지 동시에 변환하는 복합 매크로입니다.</p>
+            
+            <div class="code-block">
+<span class="vba-keyword">Sub</span> convertTobeInterfaceMCI() 
+
+<span class="vba-keyword">Dim</span> szFileList() <span class="vba-keyword">As</span> <span class="vba-type">String</span> 
+<span class="vba-keyword">Dim</span> tarPath <span class="vba-keyword">As</span> <span class="vba-type">String</span> 
+<span class="vba-keyword">Dim</span> fileExt <span class="vba-keyword">As</span> <span class="vba-type">String</span> 
+<span class="vba-keyword">Dim</span> fileName <span class="vba-keyword">As</span> <span class="vba-type">String</span> 
+<span class="vba-keyword">Dim</span> asTran <span class="vba-keyword">As</span> <span class="vba-type">String</span> 
+<span class="vba-keyword">Dim</span> strTm <span class="vba-keyword">As</span> <span class="vba-type">String</span> 
+<span class="vba-keyword">Dim</span> tmpDir <span class="vba-keyword">As</span> <span class="vba-type">String</span> 
+<span class="vba-keyword">Dim</span> tmpName <span class="vba-keyword">As</span> <span class="vba-type">String</span> 
+<span class="vba-keyword">Dim</span> tobeTrnCd <span class="vba-keyword">As</span> <span class="vba-type">String</span> 
+<span class="vba-keyword">Dim</span> FileChk <span class="vba-keyword">As</span> <span class="vba-type">String</span> 
+<span class="vba-keyword">Dim</span> rFind <span class="vba-keyword">As</span> <span class="vba-type">Range</span> 
+<span class="vba-keyword">Dim</span> BIZ_CD <span class="vba-keyword">As</span> <span class="vba-type">String</span> 
+<span class="vba-keyword">Dim</span> index <span class="vba-keyword">As</span> <span class="vba-type">Integer</span> 
+<span class="vba-keyword">Dim</span> tmpBook <span class="vba-keyword">As</span> <span class="vba-type">Workbook</span> 
+<span class="vba-keyword">Dim</span> tmpMapBook <span class="vba-keyword">As</span> <span class="vba-type">Workbook</span> 
+<span class="vba-keyword">Dim</span> changeStr <span class="vba-keyword">As</span> <span class="vba-type">String</span> 
+
+BIZ_CD = <span class="vba-string">"NSBLO"</span> 
+fileExt = <span class="vba-string">"*.xlsx"</span> 
+index = 0 
+
+tarPath = InputBox(<span class="vba-string">"경로를 입력하세요"</span>) 
+fileName = Dir(tarPath & <span class="vba-string">"\"</span> & fileExt) 
+
+tmpDir = tarPath & <span class="vba-string">"\"</span> & <span class="vba-string">"TMP"</span> 
+
+<span class="vba-keyword">While</span> fileName <> <span class="vba-string">""</span> 
+    index = index + 1 
+    <span class="vba-keyword">ReDim Preserve</span> szFileList(1 <span class="vba-keyword">To</span> index) 
+    szFileList(index) = fileName 
+    fileName = Dir() 
+<span class="vba-keyword">Wend</span> 
+
+Workbooks.Open <span class="vba-string">"D:\매크로\works\"</span> & <span class="vba-string">"mapping trancode.xlsx"</span> 
+<span class="vba-keyword">Set</span> tmpMapBook = Workbooks(<span class="vba-string">"mapping_trancode.xlsx"</span>) 
+
+<span class="vba-keyword">If</span> Len(Dir(tmpDir, vbDirectory)) = 0 <span class="vba-keyword">Then</span> 
+    MkDir (tmpDir) 
+<span class="vba-keyword">End If</span> 
+
+<span class="vba-keyword">For</span> index = 1 <span class="vba-keyword">To</span> UBound(szFileList) 
+    <span class="vba-keyword">If</span> InStr(szFileList(index), <span class="vba-string">"SB"</span>) <= 0 <span class="vba-keyword">Then</span> 
+        <span class="vba-keyword">GoTo</span> Continue 
+    <span class="vba-keyword">End If</span> 
+
+    tmpName = Mid(szFileList(index), InStr(szFileList(index), <span class="vba-string">"SBLO"</span>), 12) 
+    
+    tmpMapBook.Worksheets(<span class="vba-string">"전송"</span>).Select 
+    <span class="vba-keyword">Set</span> rFind = Range(<span class="vba-string">"C2"</span>, <span class="vba-string">"C"</span> & 7000).Find(tmpName) 
+
+    <span class="vba-keyword">If</span> rFind <span class="vba-keyword">Is Nothing Then</span> 
+        Debug.Print <span class="vba-string">"ERROR => ["</span> & szFileList(index) & <span class="vba-string">"]"</span> 
+        <span class="vba-keyword">GoTo</span> Continue 
+    <span class="vba-keyword">Else</span> 
+        tobeTrnCd = rFind.Offset(0, 1).Value 
+
+    <span class="vba-keyword">End If</span> 
+    <span class="vba-comment">' Debug.Print "TOBE TRAN CODE: " & tobeTrnCd </span>
+    <span class="vba-comment">' Debug.Print "Convert Name:" & Replace(szFileList(index), tmpName, tobeTrnCd) </span>
+
+    asTran = tmpName 
+    tmpName = Replace(szFileList(index), tmpName, tobeTrnCd) 
+
+    FileChk = Dir(tmpDir & <span class="vba-string">"\"</span> & tmpName) 
+    <span class="vba-keyword">If</span> (Len(FileChk) > 0) <span class="vba-keyword">Then</span> 
+        Debug.Print <span class="vba-string">"File Exists => ["</span> & szFileList(index) & <span class="vba-string">"]"</span> 
+        <span class="vba-keyword">GoTo</span> Continue 
+    <span class="vba-keyword">End If</span> 
+
+    <span class="vba-comment">'TOBE 파일명으로 Copy </span>
+    VBA.FileCopy tarPath & <span class="vba-string">"\"</span> & szFileList(index), tmpDir & <span class="vba-string">"\"</span> & tmpName 
+
+    Workbooks.Open tmpDir & <span class="vba-string">"\"</span> & tmpName 
+    <span class="vba-keyword">Set</span> tmpBook = Workbooks(tmpName) 
+
+    <span class="vba-comment">' Debug.Print "파일명 [" & szFileList(index) & "]" </span>
+    
+    tmpBook.Worksheets(<span class="vba-string">"본문"</span>).Select 
+    
+    Cells(2, 4) = Replace(Cells(2, 4), asTran, tobeTrnCd) 
+    Cells(1, 4) = tobeTrnCd 
+
+    tmpBook.Close savechanges:=<span class="vba-keyword">True</span> 
+
+<span class="vba-label">Continue:</span>
+    <span class="vba-keyword">Next</span>
+
+    tmpMapBook.Close savechanges:=<span class="vba-keyword">False</span> 
+    Debug.Print <span class="vba-string">"== END =="</span> 
+
+<span class="vba-keyword">End Sub</span></div>
+        </div>
+        
+        <a href="../index.html" class="back-btn">← 메인으로 돌아가기</a>
+    </div>
+</body>
+</html>

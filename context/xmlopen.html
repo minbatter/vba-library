@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML OPEN VBA Code - Codeit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .content-card {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
+        }
+        h2 { color: #6500c3; margin-bottom: 10px; font-size: 20px; }
+        .description { font-size: 14px; color: #666; margin-bottom: 20px; line-height: 1.5; }
+        .code-block {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: pre;
+            border: 1px solid #333;
+        }
+        .vba-keyword { color: #569cd6; }
+        .vba-type { color: #4ec9b0; }
+        .vba-comment { color: #6a9955; }
+        .vba-string { color: #ce9178; }
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid #ffffff;
+            transition: opacity 0.2s;
+        }
+        .back-btn:hover { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content-card">
+            <h2>XML OPEN VBA Code</h2>
+            <p class="description">파일 선택 창을 통해 XML 파일을 불러오고 데이터를 파싱하여 직접 출력하는 매크로 소스코드입니다.</p>
+            
+            <div class="code-block">
+<span class="vba-keyword">Sub</span> xmlOpen()
+    <span class="vba-keyword">Dim</span> fd <span class="vba-keyword">As</span> Office.FileDialog
+    <span class="vba-keyword">Set</span> fd = Application.FileDialog(msoFileDialogFilePicker) 
+
+    <span class="vba-keyword">With</span> fd 
+        .Filters.Clear 
+        .Title = <span class="vba-string">"Select Xml File"</span> 
+        .Filters.Add <span class="vba-string">"XML File"</span>, <span class="vba-string">"*.xml"</span>, 1 
+        .AllowMultiSelect = <span class="vba-keyword">False</span> 
+
+        <span class="vba-keyword">If</span> .Show = <span class="vba-keyword">True</span> <span class="vba-keyword">Then</span> 
+            xmlFileName = .SelectedItems(1) 
+            <span class="vba-comment">' MsgBox xmlFileName </span>
+
+            <span class="vba-comment">' Process Xml files</span>
+            <span class="vba-keyword">Dim</span> xDoc <span class="vba-keyword">As</span> <span class="vba-type">Object</span>
+            <span class="vba-keyword">Set</span> xDoc = CreateObject(<span class="vba-string">"MSXML2.DOMDocument"</span>) 
+            xDoc.async = <span class="vba-keyword">False</span>: xDoc.validateOnParse = <span class="vba-keyword">False</span> 
+            
+            <span class="vba-comment">' Get Root Node</span>
+            <span class="vba-keyword">Set</span> Products = xDoc.DocumentElement 
+
+            <span class="vba-keyword">For Each</span> Product <span class="vba-keyword">In</span> Products.ChildNodes 
+                Debug.Print <span class="vba-string">"key : "</span> & Product.ChildNodes(0).Text 
+                Debug.Print <span class="vba-string">"Text: "</span> & Product.ChildNodes(1).Text 
+                Debug.Print <span class="vba-string">"---"</span> 
+            <span class="vba-keyword">Next</span> Product
+        <span class="vba-keyword">End If</span>
+    <span class="vba-keyword">End With</span>
+<span class="vba-keyword">End Sub</span></div>
+        </div>
+        
+        <a href="../index.html" class="back-btn">← 메인으로 돌아가기</a>
+    </div>
+</body>
+</html>

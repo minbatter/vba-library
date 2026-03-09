@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CellMerge VBA Code - Codeit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .content-card {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
+        }
+        
+        h2 { 
+            color: #6500c3; 
+            margin-bottom: 10px; 
+            font-size: 20px;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        /* 코드 블록 스타일 */
+        .code-block {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: pre;
+            border: 1px solid #333;
+        }
+
+        .vba-keyword { color: #569cd6; } /* Dim, Sub, If 등 */
+        .vba-type { color: #4ec9b0; }    /* Range, Integer 등 */
+        .vba-comment { color: #6a9955; } /* 주석 (필요시) */
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid #ffffff;
+            transition: opacity 0.2s;
+        }
+        .back-btn:hover { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content-card">
+            <h2>CellMerge VBA Code</h2>
+            <p class="description">선택한 영역에서 동일한 값을 가진 셀들을 자동으로 병합해주는 매크로 소스코드입니다.</p>
+            
+            <div class="code-block">
+<span class="vba-keyword">Sub</span> testCellMerge()
+    <span class="vba-keyword">Dim</span> rStart <span class="vba-keyword">As</span> <span class="vba-type">Range</span>
+    <span class="vba-keyword">Dim</span> rend <span class="vba-keyword">As</span> <span class="vba-type">Range</span>
+    <span class="vba-keyword">Dim</span> index <span class="vba-keyword">As</span> <span class="vba-type">Integer</span>
+
+    Application.DisplayAlerts = <span class="vba-keyword">False</span> 
+    <span class="vba-keyword">Set</span> rStart = Selection.Cells(1) 
+
+    <span class="vba-keyword">For</span> index = 1 <span class="vba-keyword">To</span> Selection.Cells.Count 
+        <span class="vba-keyword">If</span> Selection.Cells(index) <> Selection.Cells(index + 1) <span class="vba-keyword">Then</span> 
+            <span class="vba-keyword">Set</span> rend = Selection.Cells(index) 
+            Range(rStart, rend).Merge 
+            <span class="vba-keyword">Set</span> rStart = Selection.Cells(index + 1) 
+        <span class="vba-keyword">End If</span>
+    <span class="vba-keyword">Next</span> 
+
+    Application.DisplayAlerts = <span class="vba-keyword">True</span> 
+<span class="vba-keyword">End Sub</span></div>
+        </div>
+        
+        <a href="../index.html" class="back-btn">← 메인으로 돌아가기</a>
+    </div>
+</body>
+</html>

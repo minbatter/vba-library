@@ -1,0 +1,172 @@
+/* 기본 설정 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: linear-gradient(180deg, #6500c3 0%, #3b007d 100%);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 20px; /* 모바일 여백 최적화 */
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+/* 컨테이너 - 유연한 너비 설정 */
+.container {
+    width: 100%;
+    max-width: 600px; /* 최대 너비 제한 */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 프로필 섹션 */
+.profile {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.profile-img {
+    width: clamp(80px, 20vw, 110px); /* 화면 크기에 따라 이미지 크기 가변 */
+    height: clamp(80px, 20vw, 110px);
+    border-radius: 50%;
+    background-color: #fff;
+    margin-bottom: 15px;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.profile-name {
+    font-size: clamp(1.2rem, 5vw, 1.5rem); /* 가변 폰트 크기 */
+    font-weight: 700;
+}
+
+/* 링크 리스트 */
+.links-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.link-item {
+    display: block;
+    background-color: #ffffff;
+    color: #6500c3;
+    text-decoration: none;
+    padding: 18px 20px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+/* 모바일 터치 대응 */
+@media (hover: hover) {
+    .link-item:hover {
+        transform: translateY(-3px);
+        background-color: #f3ebff;
+    }
+}
+
+.link-item:active {
+    transform: scale(0.98);
+}
+
+/* 상세 페이지 카드 */
+.content-card {
+    background: white;
+    color: #333;
+    padding: clamp(15px, 5vw, 30px);
+    border-radius: 20px;
+    text-align: left;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    width: 100%;
+}
+
+h2 { 
+    color: #6500c3; 
+    margin-bottom: 15px; 
+    font-size: 1.25rem;
+    word-break: keep-all;
+}
+
+/* 코드 블록 - 모바일 가로 스크롤 핵심 */
+.code-block {
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    padding: 15px;
+    border-radius: 10px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    overflow-x: auto; /* 내용이 넘치면 가로 스크롤 생성 */
+    white-space: pre;
+    border: 1px solid #333;
+    -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
+}
+
+/* 푸터 및 돌아가기 버튼 */
+.footer-text {
+    margin-top: 40px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+/* 돌아가기 버튼 스타일 강화 */
+.back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 30px;
+    padding: 12px 25px;
+    background-color: rgba(255, 255, 255, 0.1); /* 살짝 투명한 배경 */
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateX(-5px); /* 왼쪽으로 살짝 이동하는 애니메이션 */
+}
+
+.back-btn i {
+    font-size: 0.9rem;
+}
+
+/* 카드 하단 여백 확보 */
+.content-card {
+    margin-bottom: 10px;
+}
+
+/* 애니메이션 */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 작은 모바일 화면용 미세 조정 */
+@media (max-width: 480px) {
+    body { padding: 15px; }
+    .link-item { padding: 15px; font-size: 0.95rem; }
+    .code-block { font-size: 0.75rem; }
+}

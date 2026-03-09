@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Copy VBA - Codeit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .content-card {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
+        }
+        
+        h2 { 
+            color: #6500c3; 
+            margin-bottom: 10px; 
+            font-size: 20px;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        /* 코드 블록 스타일 */
+        .code-block {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: pre;
+            border: 1px solid #333;
+        }
+
+        .vba-keyword { color: #569cd6; } /* Dim, Sub, If 등 */
+        .vba-type { color: #4ec9b0; }    /* Integer, String, Range 등 */
+        .vba-string { color: #ce9178; }  /* "Text" */
+        .vba-comment { color: #6a9955; } /* ' Comment */
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid #ffffff;
+            transition: opacity 0.2s;
+        }
+        .back-btn:hover { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content-card">
+            <h2>File Copy VBA Code</h2>
+            <p class="description">원본 파일을 선택한 후, 엑셀 시트에 나열된 파일명 리스트를 바탕으로 지정된 경로에 복사본을 생성하는 매크로입니다.</p>
+            
+            <div class="code-block">
+<span class="vba-keyword">Sub</span> proc_filecopy()
+    <span class="vba-keyword">Dim</span> intChoice <span class="vba-keyword">As</span> <span class="vba-type">Integer</span>
+    <span class="vba-keyword">Dim</span> strPath <span class="vba-keyword">As</span> <span class="vba-type">String</span>
+    <span class="vba-keyword">Dim</span> sRow <span class="vba-keyword">As</span> <span class="vba-type">Integer</span>, eRow <span class="vba-keyword">As</span> <span class="vba-type">Integer</span>, sCol <span class="vba-keyword">As</span> <span class="vba-type">Integer</span>
+    <span class="vba-keyword">Dim</span> index <span class="vba-keyword">As</span> <span class="vba-type">Integer</span>
+    <span class="vba-keyword">Dim</span> targetFileName <span class="vba-keyword">As</span> <span class="vba-type">String</span>
+    <span class="vba-keyword">Dim</span> filenamePrefix <span class="vba-keyword">As</span> <span class="vba-type">String</span>
+
+    filenamePrefix = <span class="vba-string">"D:\ 테스트 관련 정기배치 통테 2차산출물\"</span>
+    
+    Application.FileDialog(msoFileDialogOpen).AllowMultiSelect = <span class="vba-keyword">False</span>
+    intChoice = Application.FileDialog(msoFileDialogOpen).Show 
+
+    <span class="vba-keyword">If</span> intChoice <> 0 <span class="vba-keyword">Then</span>
+        strPath = Application.FileDialog(msoFileDialogOpen).SelectedItems(1) 
+        MsgBox strPath
+    <span class="vba-keyword">End If</span>
+
+    Sheets(<span class="vba-string">"Sheet1"</span>).Activate
+    
+    sRow = Selection.Row
+    eRow = Selection.Row + Selection.Rows.Count - 1
+    sCol = Selection.Column
+
+    <span class="vba-keyword">For</span> index = 1 <span class="vba-keyword">To</span> Selection.Rows.Count 
+        targetFileName = filenamePrefix & Cells(sRow + index - 1, sCol) 
+        VBA.FileCopy strPath, targetFileName 
+    <span class="vba-keyword">Next</span>
+<span class="vba-keyword">End Sub</span></div>
+        </div>
+        
+        <a href="../index.html" class="back-btn"><i class="fas fa-chevron-left"></i> 메인으로 돌아가기</a>
+    </div>
+</body>
+</html>
